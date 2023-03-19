@@ -1,14 +1,13 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bomb : MonoBehaviour
+public abstract class Bomb: MonoBehaviour
 {
-    [SerializeField] private float _bombRadius;
-
-    private static Collider[] _colliders = new Collider[30];
-    private void OnCollisionEnter(Collision other)
+    [SerializeField] protected float _bombRadius;
+    protected static Collider[] _colliders = new Collider[30];
+    
+    public void Explode()
     {
         var bombPosition = transform.position;
         var size = Physics.OverlapSphereNonAlloc(bombPosition, _bombRadius, _colliders);

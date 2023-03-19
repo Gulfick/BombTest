@@ -8,5 +8,6 @@ public class CasualEnemy : MonoBehaviour, IEnemy
     {
         _collider.enabled = false;
         Destroy(_parent);
+        EnemiesManager.EnemyDestroyed();
     }
 }
