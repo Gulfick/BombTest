@@ -24,7 +24,7 @@ public abstract class Bomb: MonoBehaviour
             if (Physics.Raycast(bombPosition, dir, out var hit)) {
                 if (hit.transform.CompareTag("Enemy"))
                 {
-                    enemyTransform.GetComponent<IEnemy>().Destroy();
+                    enemyTransform.GetComponent<IDestroyable>().Destroy();
                 }
             }
         }

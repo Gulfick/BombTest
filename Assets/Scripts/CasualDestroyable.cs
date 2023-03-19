@@ -1,12 +1,10 @@
 using UnityEngine;
 
-public class CasualEnemy : MonoBehaviour, IEnemy
+public class CasualDestroyable : MonoBehaviour, IDestroyable
 {
-    [SerializeField] private Collider _collider;
     [SerializeField] private GameObject _parent;
     public void Destroy()
     {
-        _collider.enabled = false;
         Destroy(_parent);
         EnemiesManager.EnemyDestroyed();
     }

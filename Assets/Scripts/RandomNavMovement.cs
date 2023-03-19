@@ -7,7 +7,6 @@ using UnityEngine.AI;
 public class RandomNavMovement : MonoBehaviour
 {
     private NavMeshAgent _agent;
-    // Start is called before the first frame update
     private async UniTask Start()
     {
         _agent = GetComponent<NavMeshAgent>();
@@ -19,8 +18,7 @@ public class RandomNavMovement : MonoBehaviour
         if(cancellationToken.IsCancellationRequested)
             return;
         _agent.SetDestination(FindRandomPoint.RandomPoint());
-        //await UniTask.Delay(200, cancellationToken: cancellationToken);
-        
+
         await UniTask.WaitWhile(
             () =>
             {
@@ -30,7 +28,6 @@ public class RandomNavMovement : MonoBehaviour
             cancellationToken: cancellationToken);
         
         var time = (_agent.remainingDistance / _agent.speed) * 1.1f;
-        //Debug.Log($"time = {time}\n_agent.remDist = {_agent.remainingDistance}\nspeed = {_agent.speed}");
         await UniTask.Delay((int)(time * 1000), cancellationToken: cancellationToken);
         await DestinationCheck(cancellationToken);
     }

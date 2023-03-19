@@ -1,24 +1,30 @@
 using System;
 using TMPro;
+using UnityEngine;
 
-public static class EnemiesManager
+public class EnemiesManager: MonoBehaviour
 {
-    public static Action OnFinish;
+    [SerializeField] private int _count;
+    [SerializeField] private GameObject _prefab;
+    [SerializeField] private MainUI _mainUI;
 
-    private static int _enemiesCount;
-    private static TextMeshProUGUI _text;
-
-    public static void SetTextCount(TextMeshProUGUI text)
-    {
-        _text = text;
-    }
-
-    public static void EnemyCreated()
-    {
-        _enemiesCount++;
-        UpdateTextCount();
-    }
+    private static Action OnFinish;
+    private static Action OnDestroyed;
     
+    private static int _enemiesCount;
+
+    private void Start()
+    {
+        OnFinish += () => _mainUI.FinishLevel();
+        OnDestroyed += () => _mainUI.SetTextCount(_enemiesCount);
+        FindRandomPoint.SetSize(new Vector2(-10,-10), new Vector2(10,10));
+        for (int i = 0; i < _count; i++)
+        {
+            Instantiate(_prefab, FindRandomPoint.RandomPoint(), Quaternion.identity);
+            _enemiesCount++;
+        }
+    }
+
     public static void EnemyDestroyed()
     {
         if (--_enemiesCount <= 0)
@@ -26,11 +32,6 @@ public static class EnemiesManager
             OnFinish?.Invoke();
         }
 
-        UpdateTextCount();
-    }
-
-    private static void UpdateTextCount()
-    {
-        _text.text = $"{_enemiesCount}";
+        OnDestroyed?.Invoke();
     }
 }
